@@ -4,7 +4,7 @@
 #include <netdb.h>
 #include <unistd.h>
 
-#define PORT 65432 // 2828 --> any num between 1024 and 65535
+#define PORT 3000
 
 #define MIN_ARGS 2
 #define MAX_ARGS 2
@@ -34,16 +34,7 @@ void send_request(int fd)
 
    while ((num = getline(&line, &size, stdin)) >= 0)
    {
-      // Send input to server
       write(fd, line, num);
-
-      // Read the echoed response from the server
-      char echo[1024]; // arbitrary 1024, assuming input won't be longer than that
-      ssize_t echoBytes = read(fd, echo, sizeof(echo));
-      //echo[echoBytes] = '\0'; // Add null terminator after input for printing --> still didn't work, seg fault --> using fwrite instead
-
-      // Print echoed response
-      fwrite(echo, 1, echoBytes, stdout); // 1 byte --> sizeof(chr)
    }
 
    free(line);

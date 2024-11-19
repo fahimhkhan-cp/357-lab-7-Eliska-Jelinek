@@ -4,13 +4,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define PORT 65432 // 2828 --> any num between 1024 and 65535
-
-
+#define PORT 3000
 
 void handle_request(int nfd)
 {
-   FILE *network = fdopen(nfd, "r+"); // r --> r+ so that it can read + write
+   FILE *network = fdopen(nfd, "r");
    char *line = NULL;
    size_t size;
    ssize_t num;
@@ -24,9 +22,7 @@ void handle_request(int nfd)
 
    while ((num = getline(&line, &size, network)) >= 0)
    {
-      //printf("%s", line);
-      write(nfd, line, num);
-      ////send_request(nfd);
+      printf("%s", line);
    }
 
    free(line);
